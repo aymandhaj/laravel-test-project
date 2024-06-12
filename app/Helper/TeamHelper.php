@@ -118,7 +118,7 @@ class TeamHelper
 
                         $weekSelected = $weekRound->keys()->random();
                         $date = $weekRound[$weekSelected][rand(0 , 6)];
-                        $checkTeamPlayInTheWeek = $this->checkTeamPlayedInTheWeek($dataCollection , $weekSelected , $team1->teamName , $team2->teamName);
+                        $checkTeamPlayInTheWeek = $this->checkTeamPlayedInTheWeek($dataCollection , $weekSelected , $team1->teamName , $team2->teamName,$date);
                     } while (!$checkTeamPlayInTheWeek);
                     $dataCollection->push([
                         'week' => $weekSelected ,
@@ -137,7 +137,7 @@ class TeamHelper
 
         }
     }
-    public function checkTeamPlayedInTheWeek($dataCollection , $week , $team1 , $team2)
+    public function checkTeamPlayedInTheWeek($dataCollection , $week , $team1 , $team2,$date)
     {
         $checkFirstTeamName = $dataCollection->where('teamName' , $team1)
             ->where('week' , $week)
@@ -152,10 +152,20 @@ class TeamHelper
             ->where('week' , $week)
             ->count();
         $countAll = $checkFirstTeamName + $check2TeamName + $check3TeamName + $check4TeamName;
+        $countDate = $dataCollection->where('date' , $date)
+            ->where('week' , $week)
+            ->count();
+
         if ($countAll >= 2) {
+            if ($countDate >= 1){
+                return false;
+            }
             return false;
         }
         else {
+            if ($countDate >= 1){
+                return false;
+            }
             return true;
         }
     }

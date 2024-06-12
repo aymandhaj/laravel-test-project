@@ -13,8 +13,6 @@ class TeamHelper
         $this->totalMatches = $this->calculateTotalMatches();
         $this->totalWeeks = $this->calculateTotalWeeks();
         $this->numberOfRefree = $numberOfRefree;
-
-
     }
     public function createTeamForLeg($numberOfTeam)
     {
@@ -137,7 +135,7 @@ class TeamHelper
 
         }
     }
-    public function checkTeamPlayedInTheWeek($dataCollection , $week , $team1 , $team2,$date)
+    public function checkTeamPlayedInTheWeek($dataCollection , $week , $team1 , $team2,$date) : bool
     {
         $checkFirstTeamName = $dataCollection->where('teamName' , $team1)
             ->where('week' , $week)
